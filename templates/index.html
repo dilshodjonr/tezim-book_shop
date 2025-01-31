@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="card wrapper card p-0 container">
+
+
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <h3>
+      Kitoblar
+    </h3>
+    <a href="{% url 'book_create' %}" class="btn btn-primary">Kitob qo'shish</a>
+  </div>
+  <div class="row">
+    {% for book in books %}
+    <div class="col-md-6 col-lg-4 mb-3 mt-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+
+            <h5 class="card-title">{{book.name}}</h5>
+            <div class="dropdown">
+              <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="cardOpt1">
+                <a class="dropdown-item" href="{% url 'book_update' book.id %}">Yangilash</a>
+                <a class="dropdown-item" href="{% url 'book_delete'  book.id %}">O'chirish</a>
+              </div>
+            </div>
+
+          </div>
+
+          <img class="img-fluid d-flex mx-auto my-4" src="{{book.image.url}}">
+          <p class="card-text">{{book.description}}</p>
+          <span><b>Miqdori:</b>{{book.quantity}}</span>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

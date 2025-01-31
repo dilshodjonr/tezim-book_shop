@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow-sm mt-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 text-white">Hodimlar</h5>
+        <a href="{% url 'staff_create' %}" class="btn btn-light text-primary btn-sm"><i class="bx bx-plus"></i> Hodim Qo'shish</a>
+    </div>
+    <div class="table-responsive text-nowrap p-3">
+        <table class="table table-hover align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Ism</th>
+                    <th>Jinsi</th>
+                    <th>Telefon raqam</th>
+                    <th>Tug'ilgan sana</th>
+                    <th class="text-center">Amallar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for staff in staff_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><strong>{{ staff.full_name }}</strong></td>
+                    <td>{{ staff.gender }}</td>
+                    <td>{{ staff.phone_number }}</td>
+                    <td>{{ staff.birthday}}</td>
+                    <td>
+                        <a class="btn btn-sm btn-danger text-white delete-btn" href="{% url 'staff_delete' staff.id %}">
+                            <i class="bx bx-trash"></i>
+                        </a>    
+                        <a class="btn btn-sm btn-warning text-white" href="{% url 'staff_update' staff.id %}">
+                            <i class="bx bx-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if not staff_list %}
+        <div class="text-center py-4 text-muted">Hozircha hech qanday hodim yo'q.</div>
+        {% endif %}
+    </div>
+</div>
+
+
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Hodim Tolovlari va Ish Ro'yxati</h1>
+
+    <!-- Tabs navigation -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="payments-tab" data-bs-toggle="tab" data-bs-target="#payments" type="button" role="tab" aria-controls="payments" aria-selected="true">Tolovlar</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks" type="button" role="tab" aria-controls="tasks" aria-selected="false">Ishlar</button>
+        </li>
+    </ul>
+
+    <!-- Tabs content -->
+    <div class="tab-content mt-3" id="myTabContent">
+        <!-- Payments Tab -->
+        <div class="tab-pane fade show active" id="payments" role="tabpanel" aria-labelledby="payments-tab">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3>Tolovlar</h3>
+                <a href="{% url 'staff_payment_create' %}" class="btn btn-light text-primary btn-sm"><i class="bx bx-plus"></i>Tolov Qo'shish</a>
+            </div>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Hodim Ismi</th>
+                        <th>Oylik to'lov</th>
+                        <th>Sana</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in staff_payment_list %}
+                    
+                    
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{payment.staff}}</td>
+                        <td>{{payment.price}} som</td>
+                        <td>{{payment.created_at}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tasks Tab -->
+        <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3>Ishlar</h3>
+                <a href="{% url 'staff_work_create' %}" class="btn btn-light text-primary btn-sm"><i class="bx bx-plus"></i>Ish Qo'shish</a>
+            </div>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Hodim Ismi</th>
+                        <th>Oylik to'lov</th>
+                        <th>Sana</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in staff_payment_list %}
+                    
+                    
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{payment.staff}}</td>
+                        <td>{{payment.price}} som</td>
+                        <td>{{payment.create_at}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Barcha o'chirish tugmalari uchun event qo'shamiz
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault(); // Default harakatni to'xtatadi
+                const confirmation = confirm("Rostan ham o'chirmoqchimisiz?");
+                if (confirmation) {
+                    window.location.href = this.href; // Tasdiqlanganda havolani ishga tushiradi
+                }
+            });
+        });
+    });
+</script>
+{% endblock content %}
+

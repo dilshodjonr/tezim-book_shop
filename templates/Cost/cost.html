@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow-sm mt-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 text-white">Xaridlar</h5>
+        <a href="{% url 'cost_create' %}" class="btn btn-light text-primary btn-sm"><i class="bx bx-plus"></i>Xarid qilish</a>
+    </div>
+    <div class="table-responsive text-nowrap p-3">
+        <table class="table table-hover align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>nomi</th>
+                    <th>narxi</th>
+                    <th>kategoriyasi</th>
+                    <th>tavsifi</th>
+                    <th>miqdori</th>
+                    <th>yaratilgan_at</th>
+                    <th class="text-center">Amallar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cost in cost_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><strong>{{ cost.name }}</strong></td>
+                    <td>{{ cost.price }}</td>
+                    <td>{{ cost.category }}</td>
+                    <td>{{ cost.description }}</td>
+                    <td>{{ cost.quantity }}</td>
+                    <td>{{ cost.created_at }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-danger text-white delete-btn" href="{% url 'cost_delete' cost.id %}">
+                            <i class="bx bx-trash"></i>
+                        </a>    
+                        <a class="btn btn-sm btn-warning text-white" href="{% url 'cost_update' cost.id %}">
+                            <i class="bx bx-edit"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if not cost_list %}
+        <div class="text-center py-4 text-muted">Hozircha hech qanday xarid yo'q.</div>
+        {% endif %}
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // "O'chirish" tugmalarini topish
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault(); // Default harakatni to'xtatish
+                const confirmation = confirm("Rostan ham o'chirmoqchimisiz?");
+                if (confirmation) {
+                    window.location.href = this.href; // Tasdiqlanganda havolani ishga tushiradi
+                }
+            });
+        });
+    });
+</script>
+{% endblock content %}

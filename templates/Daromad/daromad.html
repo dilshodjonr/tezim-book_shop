@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Daromad va Sof Foyda</h1>
+
+        <form method="GET" action="">
+            <div class="row mb-3">
+                <div class="col-md-5">
+                    <label for="start_date" class="form-label">Boshlanish sanasi</label>
+                    <input type="date" id="start_date" name="start_date" class="form-control" required>
+                </div>
+                <div class="col-md-5">
+                    <label for="end_date" class="form-label">Tugash sanasi</label>
+                    <input type="date" id="end_date" name="end_date" class="form-control" required>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Tasdiqlash</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Hisobot natijalari</h4>
+
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>Tur</th>
+                            <th>Summasi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Xarid</td>
+                            <td>{{total_cost_sum}} so'm</td>
+                        </tr>
+                        <tr>
+                            <td>Chiqim</td>
+                            <td>{{total_chiqim_sum}} so'm</td>
+                        </tr>
+                        <tr>
+                            <td>Xodim to'lovlari</td>
+                            <td>{{total_payment_sum}} so'm</td>
+                        </tr>
+                        <tr>
+                            <td>Sotilgan kitoblar narxi</td>
+                            <td>{{total_hodim_sum}} so'm</td>
+                        </tr>
+                        <tr class="table-success">
+                            <td><strong>Sof Foyda</strong></td>
+                            <td><strong>{{profit}} so'm</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    {% endblock content %}

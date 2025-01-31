@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow-sm mt-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 text-white">Chiqimlar</h5>
+        <a href="{% url 'chiqim_create' %}" class="btn btn-light text-primary btn-sm"><i class="bx bx-plus"></i>Chiqim</a>
+    </div>
+    <div class="table-responsive text-nowrap p-3">
+        <table class="table table-hover align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>No.</th>
+                    <th>Nomi</th>
+                    <th>Malumoti</th>
+                    <th>Sanasi</th>
+                    <th class="text-center">Amallar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for chiqim in chiqim_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><strong>{{ chiqim.name }}</strong></td>
+                    <td>{{ chiqim.description }}</td>
+                    <td>{{ chiqim.created_at }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-danger text-white delete-btn" href="{% url 'chiqim_delete' chiqim.id %}">
+                            <i class="bx bx-trash"></i>
+                        </a>    
+                        <a class="btn btn-sm btn-warning text-white" href="{% url 'chiqim_update' chiqim.id %}">
+                            <i class="bx bx-edit"></i> 
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if not chiqim_list %}
+        <div class="text-center py-4 text-muted">Hozircha hech qanday Chiqimlar yo'q</div>
+        {% endif %}
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // "O'chirish" tugmalarini tanlash
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault(); // Havolaning default harakatini to'xtatish
+                const confirmation = confirm("Rostan ham o'chirmoqchimisiz?");
+                if (confirmation) {
+                    window.location.href = this.href; // Tasdiqlanganda havolani bajarish
+                }
+            });
+        });
+    });
+</script>
+{% endblock content %}
