@@ -1,11 +1,8 @@
 from django.shortcuts import render , redirect
 from django.shortcuts import get_object_or_404
 
-from .forms import refrencesForm
-from .models import refrences , Book_model
-from .models import Staff
-from .forms import StaffForm , CostForm , BookForm , SotuvForm , ChiqimForm , StaffpaymentForm , StaffWorkForm
-from .models import Cost, Book_model , Income , Output, Staff_Payment , Staff_Work
+from .forms import *
+from .models import *
 # Create your views here.
 
 def home(request):
@@ -78,9 +75,11 @@ def reference_delete(request , pk):
 def staff_view(request):
     staff_list = Staff.objects.all()
     staff_payment_list = Staff_Payment.objects.all()
+    work_list = Staff_Work.objects.all()
     context = {
         "staff_list": staff_list,
-        "staff_payment_list":staff_payment_list
+        "staff_payment_list":staff_payment_list,
+        "work_list":work_list
     }
     return render(request, "Staff/staff.html" , context=context)
 
@@ -354,3 +353,26 @@ def staff_work_create(request):
         "forms":forms
     }
     return render(request , "staff_work/staff_work_create.html" , context=context)
+
+
+def staff_work_update(request , pk):
+    Staff_item = Staff_Work.objects.get(pk=pk)
+
+    if request.method == "POST":
+        forms = StaffWorkForm(request.POST , instance=Staff_item)
+        if forms.is_valid():
+            forms.save()
+            return redirect('staff_view')
+        
+    forms = StaffWorkForm(instance=Staff_item)
+
+    context = {
+        "forms":forms
+    }
+
+    return render(request , 'Staff/staff_update.html' , context=context)
+
+def staff_work_delete(request , pk):
+    staff_item = Staff_Work.objects.get(pk=pk)
+    staff_item.delete()
+    return redirect('staff_view')

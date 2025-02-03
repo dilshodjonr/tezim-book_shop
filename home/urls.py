@@ -23,6 +23,7 @@ urlpatterns = [
     path("staff_payment/create", views.staff_payment_create , name="staff_payment_create"), 
     #Staff_work 
     path("staff_work/create", views.staff_work_create , name="staff_work_create"),    
+    
     # Cost
     path("Cost" , views.cost_view,  name="cost_view"), 
     path("cost/create", views.cost_create , name="cost_create"),
