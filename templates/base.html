@@ -68,7 +68,7 @@
         <!-- Menu -->
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="index.html" class="app-brand-link text-decoration-none">
               <span class="app-brand-logo demo">
                 <svg
                   width="25"
@@ -134,58 +134,87 @@
 
           <div class="menu-inner-shadow"></div>
 
-          <ul class="menu-inner py-1">
-
-<li class="menu-item text-decoration-none">
-  <a href="{% url 'home' %}" class="menu-link text-decoration-none">
-    <i class="menu-icon tf-icons bx bx-book"></i>
-    <div data-i18n="Analytics">Kitoblar</div>
-  </a>
-</li>
-
-<li class="menu-item text-decoration-none">
-  <a href="{% url 'cost_view' %}" class="menu-link text-decoration-none">
-    <i class="menu-icon tf-icons bx bx-cart"></i>
-    <div data-i18n="Analytics">Xarid</div>
-  </a>
-</li>
-
-<li class="menu-item text-decoration-none">
-  <a href="{% url 'sotuv_view' %}" class="menu-link text-decoration-none">
-    <i class="menu-icon tf-icons bx bx-store"></i>
-    <div data-i18n="Analytics">Sotuv</div>
-  </a>
-</li>
-
-<li class="menu-item text-decoration-none">
-  <a href="{% url 'staff_view' %}" class="menu-link text-decoration-none">
-    <i class="menu-icon tf-icons bx bx-user"></i>
-    <div data-i18n="Analytics">Hodim</div>
-  </a>
-</li>
-
-<li class="menu-item text-decoration-none">
-  <a href="{% url 'chiqim_view' %}" class="menu-link text-decoration-none">
-    <i class="menu-icon tf-icons bx bx-money"></i>
-    <div data-i18n="Analytics">Chiqim</div>
-  </a>
-</li>
-
-<li class="menu-item text-decoration-none">
-  <a href="{% url 'references' %}" class="menu-link text-decoration-none">
-    <i class="menu-icon tf-icons bx bx-info-circle"></i>
-    <div data-i18n="Analytics">Ma'lumotnomi</div>
-  </a>
-</li>
-
-<li class="menu-item text-decoration-none">
-  <a href="{% url 'daromad_view' %}" class="menu-link text-decoration-none">
-    <i class='bx bx-dollar-circle icon'></i>
-    <div data-i18n="Analytics">Daromat</div>
-  </a>
-</li>
-
+          <style>
+            /* Animatsiya uchun asosiy CSS */
+            .menu-item {
+              opacity: 0;
+              transform: translateY(10px);
+              transition: all 0.5s ease-in-out;
+            }
+          
+            /* Hover efekti */
+            .menu-item:hover {
+              transform: scale(1.05);
+            }
+          
+            /* Animatsiya boshlanganda barcha elementlarni ko‘rsatish */
+            .menu-loaded .menu-item {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          </style>
+          
+          <ul class="menu-inner py-1" id="menu-list">
+            <li class="menu-item text-decoration-none">
+              <a href="{% url 'home' %}" class="menu-link text-decoration-none">
+                <i class="menu-icon tf-icons bx bx-book"></i>
+                <div data-i18n="Analytics">Kitoblar</div>
+              </a>
+            </li>
+          
+            <li class="menu-item text-decoration-none">
+              <a href="{% url 'cost_view' %}" class="menu-link text-decoration-none">
+                <i class="menu-icon tf-icons bx bx-cart"></i>
+                <div data-i18n="Analytics">Xarid</div>
+              </a>
+            </li>
+          
+            <li class="menu-item text-decoration-none">
+              <a href="{% url 'sotuv_view' %}" class="menu-link text-decoration-none">
+                <i class="menu-icon tf-icons bx bx-store"></i>
+                <div data-i18n="Analytics">Sotuv</div>
+              </a>
+            </li>
+          
+            <li class="menu-item text-decoration-none">
+              <a href="{% url 'staff_view' %}" class="menu-link text-decoration-none">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div data-i18n="Analytics">Hodim</div>
+              </a>
+            </li>
+          
+            <li class="menu-item text-decoration-none">
+              <a href="{% url 'chiqim_view' %}" class="menu-link text-decoration-none">
+                <i class="menu-icon tf-icons bx bx-money"></i>
+                <div data-i18n="Analytics">Chiqim</div>
+              </a>
+            </li>
+          
+            <li class="menu-item text-decoration-none">
+              <a href="{% url 'daromad_view' %}" class="menu-link text-decoration-none">
+                <i class="menu-icon tf-icons bx bx-dollar"></i>
+                <div data-i18n="Analytics">Daromad</div>
+              </a>
+            </li>
+          
+            <li class="menu-item text-decoration-none">
+              <a href="{% url 'references' %}" class="menu-link text-decoration-none">
+                <i class="menu-icon tf-icons bx bx-info-circle"></i>
+                <div data-i18n="Analytics">Ma'lumotnomi</div>
+              </a>
+            </li>
           </ul>
+          
+          <script>
+            // Menyuni asta-sekin paydo bo‘lishi uchun animatsiya
+            document.addEventListener("DOMContentLoaded", function () {
+              const menu = document.getElementById("menu-list");
+              setTimeout(() => {
+                menu.classList.add("menu-loaded");
+              }, 200);
+            });
+          </script>
+          
         </aside>
         <!-- / Menu -->
 
@@ -207,32 +236,25 @@
               <!-- Search -->
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <input type="text" id="search" class="form-control border-0 shadow-none" placeholder="Book_serach...">
+                  <form action="" class="d-flex" method='get'>
+                  <input type="text"  name="search" id="search" class="form-control border-0 shadow-none" placeholder="Qidiruv...">
                   
-                  <a href="" class="btn #FFFFFF"><i class="bi bi-search"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                  <button type='submit' href="" class="btn #FFFFFF"><i class="bi bi-search"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                   </svg></i></a>
+                </form>
                 </div>
               </div>
               <!-- /Search -->
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Place this tag where you want the button to render. -->
-                <li class="nav-item lh-1 me-3">
-                  <a
-                    class="github-button"
-                    href="https://github.com/themeselection/sneat-html-admin-template-free"
-                    data-icon="octicon-star"
-                    data-size="large"
-                    data-show-count="true"
-                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
-                    >Star</a>
-                </li>
+                
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="{% static 'C:\Users\Notebook.com\Desktop\dasturlash\menu\static\photo_2024-09-24_17-10-41.jpg' %}" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="{% static 'assets/img/elements/images.png' %}" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -241,7 +263,7 @@
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
-                              <img src="{% static 'C:\Users\Notebook.com\Desktop\dasturlash\menu\static\photo_2024-09-24_17-10-41.jpg' %}" alt class="w-px-40 h-auto rounded-circle" />
+                              <img src="{% static 'assets/img/elements/images.png' %}" alt class="w-px-40 h-auto rounded-circle" />
                             </div>
                           </div>
                           <div class="flex-grow-1">
@@ -251,31 +273,45 @@
                         </div>
                       </a>
                     </li>
-                    <li>
-                      <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
+                    {% if user.is_authenticated %}
+                    <a class="logout-btn dropdown-item" href="{% url 'logout' %}">
+                      <i class="fa-solid fa-right-from-bracket me-2"></i>
+                      <span class="align-middle">Logout</span>
+                  </a>
+                  
+                  <style>
+                      .logout-btn {
+                          display: flex;
+                          align-items: center;
+                          gap: 8px;
+                          padding: 10px 15px;
+                          border-radius: 8px;
+                          background: white;
+                          color: #333;
+                          font-weight: bold;
+                          transition: all 0.3s ease;
+                          border: 2px solid #ddd;
+                      }
+                  
+                      .logout-btn:hover {
+                          background: #f8f9fa;
+                          transform: scale(1.05);
+                          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                      }
+                  
+                      .logout-btn i {
+                          font-size: 18px;
+                          color: #333;
+                      }
+                  </style>
+                  
+                    {% else %}
+                      <a class="d-flex justify-content-center dropdown-item" href="{% url 'login' %}">
+                        <i class="fa-regular fa-eye me-2"></i>
+                          <span class="align-middle">Login</span>
                       </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li>
-                    
+                    {% endif %}
+
                 <!--/ User -->
               </ul>
             </div>
@@ -339,7 +375,7 @@
               let found = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(query));
               row.style.display = found ? '' : 'none';
           });
-      });
+      });       
   </script>
-  </body>
-</html>
+ </body>
+</html>   

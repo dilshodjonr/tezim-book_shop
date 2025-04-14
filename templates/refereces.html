@@ -3,11 +3,11 @@
 {% block content %}
 <div class="card shadow-lg mb-4" style="background-color: #ffffff;"> <!-- Set the card background to white -->
   <!-- Card Header with black background and white text -->
-  <div class="card-header d-flex justify-content-between align-items-center" style="background-color:  Blue; color: ;">
+  <div class="card-header d-flex justify-content-between align-items-center" style="background-color:#7b80d8;">
     <h3 class="m-0 text-white">Ma'lumotnoma</h3>
-    <a href="{% url 'reference_create' %}" class="btn btn-light text-primary">Qo'shish</a>
+    <a href="{% url 'reference_create' %}" class="btn btn-light" style="color: #8289FE;">Qo'shish</a>
   </div>
-  <div class="card-body" style="background-color: #000000;"> <!-- Set the card body background to white -->
+  <div class="card-body" style="background-color: #ffffff;"> <!-- Set the card body background to white -->
     <div class="accordion mt-3" id="accordionExample">
       {% for key, value in referece_values.items %}
       <div class="accordion-item mb-3 border-0">
@@ -27,11 +27,11 @@
             <div class="d-flex align-items-center justify-content-between">
               <h5>{{ item.value }}</h5>
               <div class="icons">
+                <a class="btn btn-sm btn-danger delete-btn" href="{% url 'reference_delete' item.id %}">
+                  <i class="bx bx-trash" style="color:white"></i>
+              </a>
                 <a class="btn btn-sm btn-warning" href="{% url 'reference_update' item.id %}">
                     <i class="bx bx-edit" style="color:white"></i>
-                </a>
-                <a class="btn btn-sm btn-danger delete-btn" href="{% url 'reference_delete' item.id %}">
-                    <i class="bx bx-trash" style="color:white"></i>
                 </a>
             </div>
             </div>

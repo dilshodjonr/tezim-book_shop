@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Chiqim Tafsilotlari</h2>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Nomi: {{ chiqim.name }}</h5>
+            <p class="card-text"><strong>Malumoti:</strong> {{ chiqim.description }}</p>
+            <p class="card-text"><strong>sanasi:</strong> {{ chiqim.created_at }}</p>
+            <p class="card-text"><strong>Narxi:</strong> {{ chiqim.price }} so'm</p>
+            <a href="{% url 'chiqim_view' %}" class="btn btn-primary">Ortga</a>
+            <a href="{% url 'chiqim_delete' chiqim.id %}" class="btn btn-danger">O'chirish</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

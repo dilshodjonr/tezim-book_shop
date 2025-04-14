@@ -1,19 +1,59 @@
 {% extends "base.html" %}
-
 {% block content %}
+
+<style>
+    /* Sahifa yuklanganda animatsiya qo‘shish */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(15px);
+        transition: all 0.6s ease-in-out;
+    }
+    .loaded .fade-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Inputlar uchun animatsiya */
+    .slide-in {
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.5s ease-in-out;
+    }
+    .loaded .slide-in {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Saqlash tugmasiga hover efekti */
+    .btn-success:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+    }
+</style>
+
 <div class="container">
-    <div class="card shadow-sm p-4 mb-4 bg-white rounded">
+    <div class="card shadow-sm p-4 mb-4 bg-white rounded fade-in">
         <h2 class="text-center text-primary mb-4">Sotuvni yangilash</h2>
         <form method="POST">
             {% csrf_token %}
-            <div class="form-group">
+            <div class="form-group slide-in">
                 {{ forms }}
             </div>
-            <button class="btn btn-success">Saqlash</button>
+            <div>
+                <button class="btn btn-success">Saqlash</button>
+                <a class="btn btn-danger" href="{% url "sotuv_view" %}">Bekor qilish</a>
+            </div>
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Sahifadagi animatsiyalarni faollashtirish
+        setTimeout(() => {
+            document.body.classList.add("loaded");
+        }, 200);
+    });
+</script>
+
 {% endblock content %}
-
-
-

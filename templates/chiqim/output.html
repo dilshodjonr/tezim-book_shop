@@ -1,29 +1,65 @@
 {% extends "base.html" %}
-
 {% block content %}
+
+<style>
+  /* Jadval qatorlariga animatsiya qo‘shish */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s ease-in-out;
+  }
+
+  /* Animatsiyani faollashtirish */
+  .rows-loaded .fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hover efekti */
+  tbody tr:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+  }
+
+  /* O‘chirish tugmasiga shake effekti */
+  .shake {
+    animation: shake 0.3s ease-in-out;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+    75% { transform: translateX(-3px); }
+  }
+</style>
+
 <div class="card shadow-sm mt-4">
-    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #7e83df;">
         <h5 class="mb-0 text-white">Chiqimlar</h5>
-        <a href="{% url 'chiqim_create' %}" class="btn btn-light text-primary btn-sm"><i class="bx bx-plus"></i>Chiqim</a>
+        <a href="{% url 'chiqim_create' %}" class="btn btn-light text-primary btn-sm">
+            <i class style="color:#8289FE;">Chiqim</i>
+        </a>
     </div>
+    
     <div class="table-responsive text-nowrap p-3">
         <table class="table table-hover align-middle">
             <thead class="table-primary">
                 <tr>
-                    <th>No.</th>
-                    <th>Nomi</th>
-                    <th>Malumoti</th>
-                    <th>Sanasi</th>
-                    <th class="text-center">Amallar</th>
+                    <th  style="color:#8289FE;">No.</th>
+                    <th  style="color:#8289FE;">Nomi</th>
+                    <th  style="color:#8289FE;">Sanasi</th>
+                    <th  style="color:#8289FE;">Narxi</th>
+                    <th  style="color:#8289FE;">Amallar</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="chiqim-table-body">
                 {% for chiqim in chiqim_list %}
-                <tr>
+                <tr class="fade-in">
                     <td>{{ forloop.counter }}</td>
                     <td><strong>{{ chiqim.name }}</strong></td>
-                    <td>{{ chiqim.description }}</td>
                     <td>{{ chiqim.created_at }}</td>
+                    <td>{{ chiqim.price }}</td>
                     <td>
                         <a class="btn btn-sm btn-danger text-white delete-btn" href="{% url 'chiqim_delete' chiqim.id %}">
                             <i class="bx bx-trash"></i>
@@ -31,30 +67,48 @@
                         <a class="btn btn-sm btn-warning text-white" href="{% url 'chiqim_update' chiqim.id %}">
                             <i class="bx bx-edit"></i> 
                         </a>
+                        <a class="btn btn-sm btn-info text-white" href="{% url 'chiqim_read' chiqim.id %}">
+                            <i class="bx bx-show"></i>
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+
         {% if not chiqim_list %}
         <div class="text-center py-4 text-muted">Hozircha hech qanday Chiqimlar yo'q</div>
         {% endif %}
     </div>
 </div>
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        // "O'chirish" tugmalarini tanlash
+        // Jadval qatorlarini animatsiya bilan chiqarish
+        const chiqimTable = document.getElementById("chiqim-table-body");
+        setTimeout(() => {
+            chiqimTable.classList.add("rows-loaded");
+        }, 200);
+
+        // "O‘chirish" tugmalarini tanlash
         const deleteButtons = document.querySelectorAll(".delete-btn");
 
         deleteButtons.forEach(button => {
             button.addEventListener("click", function (event) {
-                event.preventDefault(); // Havolaning default harakatini to'xtatish
-                const confirmation = confirm("Rostan ham o'chirmoqchimisiz?");
+                event.preventDefault(); // Havolaning default harakatini to‘xtatish
+                const confirmation = confirm("Rostan ham o‘chirmoqchimisiz?");
                 if (confirmation) {
                     window.location.href = this.href; // Tasdiqlanganda havolani bajarish
+                } else {
+                    // Bekor qilganda "shake" effekti qo‘shiladi
+                    this.classList.add("shake");
+                    setTimeout(() => {
+                        this.classList.remove("shake");
+                    }, 300);
                 }
             });
         });
     });
 </script>
+
 {% endblock content %}

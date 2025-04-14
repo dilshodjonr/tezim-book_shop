@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Chiqim Tafsilotlari</h2>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Nomi: {{ sotuv.sold_book }}</h5>
+            <p class="card-text"><strong>Soni:</strong> {{ sotuv.quantity }}</p>
+            <p class="card-text"><strong>Narxi:</strong> {{ sotuv.price }} so'm</p>
+            <p class="card-text"><strong>sana:</strong> {{ sotuv.created_at }}</p>
+            <a href="{% url 'sotuv_view' %}" class="btn btn-primary">Ortga</a>
+            <a href="{% url 'sotuv_delete' sotuv.id %}" class="btn btn-danger">O'chirish</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+            
+        

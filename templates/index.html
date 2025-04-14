@@ -1,46 +1,131 @@
 {% extends "base.html" %}
-
 {% load static %}
-
 {% block content %}
 
+<style>
+  /* Card dizayni yaxshilandi */
+  .book-card {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+  }
+
+  /* Animatsiyani faollashtirish */
+  .books-loaded .book-card {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hover efekti o'chirilgan */
+  .book-card:hover {
+    transform: none;
+  }
+
+  /* Kitob nomi */
+  .book-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+  }
+
+  /* Malumotni qisqartirish */
+  .book-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    color: #222;
+    font-size: 14px;
+  }
+
+  /* Narx va miqdor */
+  .book-info {
+    font-size: 14px;
+    color: #222;
+  }
+
+  .price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #222;
+  }
+
+  /* Badge - kategoriya */
+  .category-badge {
+    background-color: #f0f0f0;
+    color: #222;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 8px;
+  }
+</style>
+
 <div class="card wrapper card p-0 container">
-
-
   <div class="card-header d-flex align-items-center justify-content-between">
-    <h3>
-      Kitoblar
-    </h3>
-    <a href="{% url 'book_create' %}" class="btn btn-primary">Kitob qo'shish</a>
+    <h3 class="fw-bold">Kitoblar</h3>
+    <a href="{% url 'book_create' %}" class="btn text-white px-4 py-2" style="background-color: #8289FE;">
+      + Kitob qo'shish
+    </a>
   </div>
-  <div class="row">
+
+  <div class="row" id="books-container">
     {% for book in books %}
-    <div class="col-md-6 col-lg-4 mb-3 mt-3">
-      <div class="card h-100">
+    <div class="col-md-6 col-lg-4 mb-3 mt-3 book-card">
+      <div class="card border-0 shadow-sm rounded-3 p-3">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
+            <!-- Kitob nomi -->
+            <h5 class="book-title"><strong>Kitob nomi:</strong> {{ book.name }}</h5>
 
-            <h5 class="card-title">{{book.name}}</h5>
+            <!-- Dropdown menyu -->
             <div class="dropdown">
-              <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </button>
-              <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                <a class="dropdown-item" href="{% url 'book_update' book.id %}">Yangilash</a>
-                <a class="dropdown-item" href="{% url 'book_delete'  book.id %}">O'chirish</a>
-              </div>
+                <button class="btn btn-light border-0 dropdown-btn" type="button" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-vertical-rounded fs-5"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" href="{% url 'book_update' book.id %}">Yangilash</a>
+                    <a class="dropdown-item text-danger" href="{% url 'book_delete' book.id %}">O'chirish</a>
+                    <a class="dropdown-item text-primary" href="{% url 'book_detail' book.id %}">More</a>
+                </div>
             </div>
-
           </div>
 
-          <img class="img-fluid d-flex mx-auto my-4" src="{{book.image.url}}">
-          <p class="card-text">{{book.description}}</p>
-          <span><b>Miqdori:</b>{{book.quantity}}</span>
+          <!-- Kitob rasmi -->
+          <div class="text-center my-3">
+            <img class="img-fluid rounded" style="max-height: 220px; object-fit: cover;" src="{{ book.image.url }}">
+          </div>
+
+          <!-- Qisqa malumot -->
+          <p class="book-description" onclick="window.location.href='{% url 'book_detail' book.id %}'">
+            <strong>Malumoti:</strong> {{ book.description }}
+          </p>
+
+          <!-- Narx va miqdor -->
+          <div class="d-flex justify-content-between mt-3">
+            <span class="book-info"><strong>Miqdori:</strong> {{ book.quantity }}</span>
+            <span class="book-info"><strong>Narxi:</strong> {{ book.price }} so'm</span>
+          </div>
+
+          <!-- Kategoriya -->
+          <div class="mt-2">
+            <span class=""><strong>Turi:</strong> {{ book.category }}</span>
+          </div>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const bookContainer = document.getElementById("books-container");
+    setTimeout(() => {
+      bookContainer.classList.add("books-loaded");
+    }, 200);
+  });
+</script>
+
 {% endblock content %}

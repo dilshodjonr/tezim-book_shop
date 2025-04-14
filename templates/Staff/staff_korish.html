@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Hodim Tafsilotlari</h2>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Nomi: {{ staff.full_name }}</h5>
+            <p class="card-text"><strong>Jinsi:</strong> {{ staff.gender  }}</p>
+            <p class="card-text"><strong>Balance:</strong> {{ staff.balance }}</p>
+            <p class="card-text"><strong>Raqami:</strong> {{ staff.phone_number }}</p>
+            <p class="card-text"><strong>sanasi:</strong> {{ staff.created_at }}</p>
+            <a href="{% url 'staff_view' %}" class="btn btn-primary">Ortga</a>
+            <a href="{% url 'staff_delete' staff.id %}" class="btn btn-danger">O'chirish</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

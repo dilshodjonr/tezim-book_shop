@@ -1,21 +1,67 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="card shadow-sm mt-4">
-    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-        <h5 class="mb-0 text-white">Hodimlar</h5>
-        <a href="{% url 'staff_create' %}" class="btn btn-light text-primary btn-sm"><i class="bx bx-plus"></i> Hodim Qo'shish</a>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Foydalanuvchilarni Filterlash</h2>
+
+
+    <form method="GET" class="">
+        <div class="d-flex justify-content-around">
+
+        <div class="col-md-3">
+            <label class="form-label">Ism</label>
+            <input type="text" name="ism" class="form-control shadow-sm rounded-3 border-0"  placeholder="Ism kiriting" aria-label="Ism">
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Jinsi</label>
+            <select name="jinsi" class="form-select shadow-sm rounded-3 border-0" aria-label="Jinsni tanlang">
+                <option value="">Jinsni tanlang</option>
+                <option value="Erkak">Erkak</option>
+                <option value="Ayol">Ayol</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Telefon</label>
+            <input type="text" name="tel" class="form-control shadow-sm rounded-3 border-0" placeholder="+998 XX XXX XX XX" aria-label="Telefon raqam">
+        </div>
     </div>
+
+        <div class="col-md-12 text-center mt-4">
+            <button type="submit" class="btn text-white rounded-3" style="background-color: #8289FE; border: none;">
+                Filterlash
+            </button>
+            
+            <a href="{% url 'staff_view' %}" class="btn text-white rounded-3" style="background-color: #8289FE; border: none;">
+                Tozalash
+            </a>
+            
+        </div>
+    </form>
+
+    <hr>
+</div>
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #8f93e2;">
+        <h5 class="mb-0 text-white">Hodimlar</h5>
+        <a href="{% url 'staff_create' %}" class="btn btn-light text-primary btn-sm">
+            <i class style="color: #8289FE;"> Hodim Qo'shish</i>
+        </a>
+    </div>
+    
     <div class="table-responsive text-nowrap p-3">
         <table class="table table-hover align-middle">
             <thead class="table-primary">
                 <tr>
-                    <th>#</th>
-                    <th>Ism</th>
-                    <th>Jinsi</th>
-                    <th>Telefon raqam</th>
-                    <th>Tug'ilgan sana</th>
-                    <th class="text-center">Amallar</th>
+                    <th style="color: #8289FE;">#</th>
+                    <th style="color: #8289FE;">Ism</th>
+                    <th style="color: #8289FE;">Jinsi</th>
+                    <th style="color: #8289FE;">Balance</th>
+                    <th style="color: #8289FE;">Telefon raqam</th>
+                    <th style="color: #8289FE;">Tug'ilgan sana</th>
+                    <th class="text-center-justify-content-between align-items-center "style="color: #8289FE;">Amallar</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +70,7 @@
                     <td>{{ forloop.counter }}</td>
                     <td><strong>{{ staff.full_name }}</strong></td>
                     <td>{{ staff.gender }}</td>
+                    <td>{{ staff.balance }}</td>
                     <td>{{ staff.phone_number }}</td>
                     <td>{{ staff.birthday}}</td>
                     <td>
@@ -32,6 +79,9 @@
                         </a>    
                         <a class="btn btn-sm btn-warning text-white" href="{% url 'staff_update' staff.id %}">
                             <i class="bx bx-edit"></i>
+                        </a>
+                        <a class="btn btn-sm btn-info text-white" href="{% url 'staff_read' staff.id %}">
+                            <i class="bx bx-show"></i>
                         </a>
                     </td>
                 </tr>
@@ -47,15 +97,20 @@
 
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Hodim Tolovlari va Ish Ro'yxati</h1>
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="text-center">Kitob Magazin xodimlari</h1>
+        <h2>Balance: {{total_balance}}so'm</h2>                     
+
+    </div>
+
 
     <!-- Tabs navigation -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="payments-tab" data-bs-toggle="tab" data-bs-target="#payments" type="button" role="tab" aria-controls="payments" aria-selected="true">Tolovlar</button>
+            <button class="nav-link active" id="payments-tab" data-bs-toggle="tab" data-bs-target="#payments" type="button" role="tab" aria-controls="payments" aria-selected="true" style="color: #8289FE;" >Tolovlar</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks" type="button" role="tab" aria-controls="tasks" aria-selected="false">Ishlar</button>
+            <button class="nav-link" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks" type="button" role="tab" aria-controls="tasks" aria-selected="false" style="color: #8289FE;" >Ishlar</button>
         </li>
     </ul>
 
@@ -63,18 +118,19 @@
     <div class="tab-content mt-3" id="myTabContent">
         <!-- Payments Tab -->
         <div class="tab-pane fade show active" id="payments" role="tabpanel" aria-labelledby="payments-tab">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h3>Tolovlar</h3>
-                <a href="{% url 'staff_payment_create' %}" class="btn btn-light text-primary btn-sm"><i class="bx bx-plus"></i>Tolov Qo'shish</a>
+            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #9195e7; color: white;">
+
+                <h3 style="color: white;">Tolovlar</h3>
+                <a href="{% url 'staff_payment_create' %}" class="btn btn-light text-primary btn-sm"><i class  style="color: #8289FE;">Tolov Qo'shish</i></a>
             </div>
             <table class="table table-bordered mt-3">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Hodim Ismi</th>
-                        <th>Oylik to'lov</th>
-                        <th>Sana</th>
-                        <th>Amallar</th>
+                        <th style="color: #8289FE;">#</th>
+                        <th style="color: #8289FE;">Hodim Ismi</th>
+                        <th style="color: #8289FE;">Oylik to'lov</th>
+                        <th style="color: #8289FE;">Sana</th>
+                        <th style="color: #8289FE;">Amallar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,10 +143,10 @@
                         <td>{{payment.price}} som</td>
                         <td>{{payment.created_at}}</td>
                         <td>
-                            <a class="btn btn-sm btn-danger text-white delete-btn" href="">
+                            <a class="btn btn-sm btn-danger text-white delete-btn" href="{% url "staff_payment_delete" payment.id %}">
                                 <i class="bx bx-trash"></i>
                             </a>    
-                            <a class="btn btn-sm btn-warning text-white" href="">
+                            <a class="btn btn-sm btn-warning text-white" href="{% url "staff_payment_update"  payment.id %}">
                                 <i class="bx bx-edit"></i>
                             </a>
                         </td>
@@ -102,19 +158,20 @@
 
         <!-- Tasks Tab -->
         <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h3>Ishlar</h3>
-                <a href="{% url 'staff_work_create' %}" class="btn btn-light text-primary btn-sm"><i class="bx bx-plus"></i>Ish Qo'shish</a>
+            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #9093ca; color: white;">
+
+                <h3 style="color: white;">Ishlar</h3>
+                <a href="{% url 'staff_work_create' %}" class="btn btn-light text-primary btn-sm"><i class  style="color: #8289FE;">Ish Qo'shish</i></a>
             </div>
             <table class="table table-bordered mt-3">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Hodim Ismi</th>
-                        <th>Narxi</th>
-                        <th>ishlagan vaqti</th>
-                        <th>Sana</th>
-                        <th>Amallar</th>
+                        <th style="color: #8289FE;">#</th>
+                        <th style="color: #8289FE;">Hodim Ismi</th>
+                        <th style="color: #8289FE;">Narxi</th>
+                        <th style="color: #8289FE;">ishlagan vaqti</th>
+                        <th style="color: #8289FE;">Sana</th>
+                        <th style="color: #8289FE;">Amallar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -128,10 +185,10 @@
                         <td>{{work.time_work}}</td>
                         <td>{{work.created_at}}</td>
                         <td>
-                            <a class="btn btn-sm btn-danger text-white delete-btn" href="">
+                            <a class="btn btn-sm btn-danger text-white delete-btn" href="{% url "staff_work_delete" work.id %}">
                                 <i class="bx bx-trash"></i>
                             </a>    
-                            <a class="btn btn-sm btn-warning text-white" href="">
+                            <a class="btn btn-sm btn-warning text-white" href="{% url "staff_work_update"   work.id %}">
                                 <i class="bx bx-edit"></i>
                             </a>
                         </td>

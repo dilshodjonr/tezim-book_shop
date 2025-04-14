@@ -1,63 +1,117 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Daromad va Sof Foyda</h1>
+<style>
+    /* Hisobot kartasiga animatsiya qo‘shish */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(15px);
+        transition: all 0.6s ease-in-out;
+    }
+    .loaded .fade-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-        <form method="GET" action="">
-            <div class="row mb-3">
-                <div class="col-md-5">
-                    <label for="start_date" class="form-label">Boshlanish sanasi</label>
-                    <input type="date" id="start_date" name="start_date" class="form-control" required>
-                </div>
-                <div class="col-md-5">
-                    <label for="end_date" class="form-label">Tugash sanasi</label>
-                    <input type="date" id="end_date" name="end_date" class="form-control" required>
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">Tasdiqlash</button>
-                </div>
+    /* Jadval qatorlari uchun animatsiya */
+    .slide-in {
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.5s ease-in-out;
+    }
+    .loaded .slide-in {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Tugmalar hover efekti */
+    button:hover, a:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+    }
+</style>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4 fade-in">Daromad va Sof Foyda</h1>
+
+    <form method="GET" action="" class="fade-in">
+        <div class="row mb-3">
+            <div class="col-md-5">
+                <label for="start_date" class="form-label">Boshlanish sanasi</label>
+                <input type="date" id="start_date" name="start_date" class="form-control" required>
             </div>
-        </form>
-
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Hisobot natijalari</h4>
-
-                <table class="table table-bordered mt-3">
-                    <thead>
-                        <tr>
-                            <th>Tur</th>
-                            <th>Summasi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Xarid</td>
-                            <td>{{total_cost_sum}} so'm</td>
-                        </tr>
-                        <tr>
-                            <td>Chiqim</td>
-                            <td>{{total_chiqim_sum}} so'm</td>
-                        </tr>
-                        <tr>
-                            <td>Xodim to'lovlari</td>
-                            <td>{{total_payment_sum}} so'm</td>
-                        </tr>
-                        <tr>
-                            <td>Sotilgan kitoblar narxi</td>
-                            <td>{{total_hodim_sum}} so'm</td>
-                        </tr>
-                        <tr class="table-success">
-                            <td><strong>Sof Foyda</strong></td>
-                            <td><strong>{{profit}} so'm</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="col-md-5">
+                <label for="end_date" class="form-label">Tugash sanasi</label>
+                <input type="date" id="end_date" name="end_date" class="form-control" required>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit"  style="background-color:#acb0fa;color: white;" class="btn ">Tasdiqlash</button>
             </div>
         </div>
+    </form>
 
+    <div class="card fade-in">
+        <div class="card-body">
+            <h4 class="card-title" style="color:#8289FE;">Hisobot natijalari</h4>
+
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Tur</th>
+                        <th>Summasi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="slide-in">
+                        <td>
+                            <a href="{% url 'cost_view' %}" class="text-decoration-none" style="color:#8289FE;">
+                                Xarid
+                            </a>
+                        </td>
+                        <td>{{ total_cost_sum }} so'm</td>
+                    </tr>
+                    <tr class="slide-in">
+                        <td>
+                            <a href="{% url 'chiqim_view' %}" class="text-decoration-none" style="color:#8289FE;">
+                                Chiqim
+                            </a>
+                        </td>
+                        <td>{{total_chiqim_sum}} so'm</td>
+                    </tr>
+                    <tr class="slide-in">
+                        <td>
+                            <a href="{% url 'staff_view' %}" class="text-decoration-none" style="color:#8289FE;">
+                                Xodim to'lovlari
+                            </a>
+                        </td>
+                        <td>{{total_payment_sum}} so'm</td>
+                    </tr>
+                    <tr class="slide-in">
+                        <td>
+                            <a href="{% url 'sotuv_view' %}" class="text-decoration-none" style="color:#8289FE;">
+                                Sotilgan kitoblar narxi
+                            </a>
+                        </td>
+                        <td>{{total_hodim_sum}} so'm</td>
+                    </tr>
+                    
+                    <tr class="slide-in {% if profit > 0 %}table-success{% else %}table-danger{% endif %}">
+                        <td><strong>Sof Foyda</strong></td>
+                        <td><strong>{{ profit }} so'm</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+</div>
 
-    <!-- Bootstrap JS -->
-    {% endblock content %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Sahifadagi animatsiyalarni faollashtirish
+        setTimeout(() => {
+            document.body.classList.add("loaded");
+        }, 200);
+    });
+</script>
+
+{% endblock content %}
